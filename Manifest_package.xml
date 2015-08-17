@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<packagegui>
+	<name>Hacker Honeypot</name>
+	<copyrights>Package realise par Elonet</copyrights>
+	<description>TCP/UDP ports scanner</description>
+	<requirements>None</requirements>
+	<required_version>2.2</required_version>
+	<faq>http://packetapps.com</faq>
+	<version>beta</version>
+	<titre>Hacker Honeypot</titre>
+	<menu>
+		<name>Hacker Honeypot</name>
+		<tooltiptext>TCP/UDP ports scanner</tooltiptext>
+		<section>Services</section>
+		<url>/services_hacker_honeypot.php</url>
+	</menu>
+	<additional_files_needed>
+		<prefix>/usr/local/www/</prefix>
+		<chmod>0755</chmod>
+		<item>source/services_hacker_honeypot.php</item>
+	</additional_files_needed>
+	<additional_files_needed>
+		<prefix>/usr/local/appsbypacketapps/hhp/</prefix>
+		<chmod>0755</chmod>
+		<item>honey.conf</item>
+	</additional_files_needed>
+	<additional_files_needed>
+		<prefix>/usr/local/appsbypacketapps/hhp/</prefix>
+		<chmod>0755</chmod>
+		<item>source/launch.php</item>
+	</additional_files_needed>	
+	<additional_files_needed>
+		<prefix>/usr/local/appsbypacketapps/hhp/</prefix>
+		<chmod>0755</chmod>
+		<item>source/thread.sh</item>
+	</additional_files_needed>
+	<additional_files_needed>
+		<prefix>/usr/local/appsbypacketapps/hhp/</prefix>
+		<chmod>0755</chmod>
+		<item>source/mail.php</item>
+	</additional_files_needed>
+	<additional_files_needed>
+		<prefix>/usr/local/etc/rc.d/</prefix>
+		<chmod>0755</chmod>
+		<item>source/hackerhoneypot.sh</item>
+	</additional_files_needed>
+	<service>
+		<name>Hacker Honeypot</name>
+		<rcfile>hackerhoneypot.sh</rcfile>
+		<description>Listen on tcp/udp an wait for an access</description>
+		<custom_php_service_status_command>
+		function pid($service){$command="ps -aux |grep " $service
+                            exec($command,$output);
+                            if (count($output)!=3){
+                                return false;
+                            }
+                            else {
+                                $info=explode(" ",$output[0]);
+                                return $info[4];
+                            }
+                        }
+                        echo pid("/usr/local/appsbypacketapps/hhp/thread.sh");
+		</custom_php_service_status_command>
+	</service>
+	<configfile>/usr/local/appsbypacketapps/hhp/honey.conf</configfile>
+</packagegui>
